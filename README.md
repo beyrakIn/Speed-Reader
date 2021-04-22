@@ -1,4 +1,4 @@
-# demo1
+# Speed Reader
 
 A new Flutter application.
 
