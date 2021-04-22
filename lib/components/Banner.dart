@@ -10,7 +10,10 @@ class _BannerState extends State<Banner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Banner(),
+      alignment: Alignment.center,
+      child: adWidget,
+      width: myBanner.size.width.toDouble(),
+      height: myBanner.size.height.toDouble(),
     );
   }
 }
@@ -30,4 +33,14 @@ final AdListener listener = AdListener(
   onAdOpened: (Ad ad) => print('Ad opened.'),
   onAdClosed: (Ad ad) => print('Ad closed.'),
   onApplicationExit: (Ad ad) => print('Left application.'),
+);
+
+final AdWidget adWidget = AdWidget(ad: myBanner);
+
+
+final Container adContainer = Container(
+  alignment: Alignment.center,
+  child: adWidget,
+  width: myBanner.size.width.toDouble(),
+  height: myBanner.size.height.toDouble(),
 );
