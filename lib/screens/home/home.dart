@@ -1,11 +1,10 @@
+import 'package:demo1/components/Button.dart';
+import 'package:demo1/methods/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:demo1/main.dart';
 
-import '../home.dart';
+import '../detail/home.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -57,49 +56,55 @@ class _MyHomePageState extends State<MyHomePage> {
               Spacer(),
               Text("Enter WPM"),
               Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                  child: SpinBox(
-                    min: 50,
-                    max: 2000,
-                    value: wpmValue,
-                    step: 10,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      contentPadding: const EdgeInsets.all(0),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        this.wpmValue = value;
-                      });
-                    },
-                  )),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+                child: SpinBox(
+                  min: 50,
+                  max: 2000,
+                  value: wpmValue,
+                  step: 10,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: const EdgeInsets.all(0),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      this.wpmValue = value;
+                    });
+                  },
+                ),
+              ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton.extended(
-                  onPressed: () => {
-                    (textController.text.isEmpty)
-                        ? message(context)
-                        : Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
+              Button(
+                buttonText: "START READ",
+                icon: Icon(Icons.play_circle_outline, size: 28),
+                text: textController.text,
+                wpm: wpmValue,
+                function: () => {
+                  (textController.text.isEmpty)
+                      ? message(
+                          context: context,
+                          title: "Hey, You!❌",
+                          message: "Enter your text😑")
+                      : Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
                           return HomeScreen(
                             text: textController.text,
                             wpm: wpmValue,
                           );
                         }))
-                  },
-                  icon: Icon(Icons.play_circle_outline, size: 28),
-                  label: Text("START READ"),
-                ),
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FloatingActionButton.extended(
-                  onPressed: null, //_read,
-                  icon: Icon(Icons.qr_code_scanner_outlined, size: 28),
-                  label: Text("SCAN IMAGE"),
-                ),
+              Button(
+                buttonText: "SCAN IMAGE",
+                icon: Icon(Icons.qr_code_scanner_outlined, size: 28),
+                function: () => {
+                  message(
+                    context: context,
+                    title: "Good news✌",
+                    message: "Coming soon😄"
+                  )
+                },
               ),
               Spacer(),
               Spacer(),
@@ -109,20 +114,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  message(BuildContext context) {
-    var title = "Hey, You!❌";
-    var message = "Enter your text😑";
-
-    var alert = new AlertDialog(
-      title: Text(title),
-      content: Text(message),
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => alert,
-    );
-  }
-
 }
