@@ -1,4 +1,4 @@
-
+import 'package:demo1/components/Banner.dart';
 import 'package:demo1/components/Button.dart';
 import 'package:demo1/methods/message.dart';
 import 'package:demo1/screens/detail/home.dart';
@@ -30,8 +30,7 @@ class _BodyState extends State<Body> {
             Spacer(),
             Text("Enter WPM"),
             Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
               child: SpinBox(
                 min: 50,
                 max: 2000,
@@ -49,7 +48,7 @@ class _BodyState extends State<Body> {
               ),
             ),
             Spacer(),
-            Button(
+            HomeButton(
               buttonText: "START READ",
               icon: Icon(Icons.play_circle_outline, size: 28),
               text: textController.text,
@@ -57,35 +56,34 @@ class _BodyState extends State<Body> {
               function: () => {
                 (textController.text.isEmpty)
                     ? message(
-                    context: context,
-                    title: "Hey, You!❌",
-                    message: "Enter your text😑")
+                        context: context,
+                        title: "Hey, You!❌",
+                        message: "Enter your text😑")
                     : Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                      return HomeScreen(
-                        text: textController.text,
-                        wpm: wpmValue,
-                      );
-                    }))
+                        MaterialPageRoute(builder: (context) {
+                        return HomeScreen(
+                          text: textController.text,
+                          wpm: wpmValue,
+                        );
+                      }))
               },
             ),
-            Button(
+            HomeButton(
               buttonText: "SCAN IMAGE",
               icon: Icon(Icons.qr_code_scanner_outlined, size: 28),
               function: () => {
                 message(
                     context: context,
                     title: "Good news✌",
-                    message: "Coming soon😄"
-                )
+                    message: "Coming soon😄")
               },
             ),
             Spacer(),
-            Spacer(),
+            // Spacer(),
+            CustomBanner()
           ],
         ),
       ),
     );
   }
 }
-

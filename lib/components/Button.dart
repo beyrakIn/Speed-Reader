@@ -1,22 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Button extends StatefulWidget {
+class HomeButton extends StatefulWidget {
   final String text;
   final String buttonText;
   final double wpm;
   final Icon icon;
   final VoidCallback function;
 
-  const Button(
+  const HomeButton(
       {Key key, this.text, this.wpm, this.buttonText, this.icon, this.function})
       : super(key: key);
 
   @override
-  _ButtonState createState() => _ButtonState();
+  _HomeButtonState createState() => _HomeButtonState();
 }
 
-class _ButtonState extends State<Button> {
+class _HomeButtonState extends State<HomeButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
