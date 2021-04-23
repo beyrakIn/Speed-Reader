@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:demo1/screens/detail/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -27,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeState extends State<HomeScreen> {
   String text;
   List<String> list;
+
   double wpm;
   bool start = false;
   bool play = false;
@@ -41,7 +43,7 @@ class _HomeState extends State<HomeScreen> {
   _HomeState({this.list, this.wpm, this.text});
 
   void _startTimer() {
-    interval = 60 / wpm.toInt();
+    interval = 60 / widget.wpm.toInt();
 
     _timer = Timer.periodic(Duration(milliseconds: (interval * 1000).toInt()),
         (timer) {
@@ -66,143 +68,21 @@ class _HomeState extends State<HomeScreen> {
 
   speak() async {
     await flutterTts.setLanguage("tr-TR");
-    await flutterTts
-        .speak(text.toLowerCase().replaceAll("ə", "e").replaceAll("x", "h").replaceAll("ğ", "k"));
+    await flutterTts.speak(text
+        .toLowerCase()
+        .replaceAll("ə", "e")
+        .replaceAll("x", "h")
+        .replaceAll("ğ", "k"));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              children: [
-                Spacer(),
-                Spacer(),
-                Expanded(
-                  child: Text(
-                    list[listIndex],
-                    style: TextStyle(fontSize: 25),
-                  ),
-                ),
-                Spacer(),
-                ElevatedButton.icon(
-                  onPressed: () => {
-                    start
-                        ? () {
-                            this.listIndex = 0;
-                            play = false;
-                            this._timer.cancel();
-                          }
-                        : _startTimer(),
-                    play = true,
-                    start = !start
-                  },
-                  icon: Icon(
-                      start
-                          ? Icons.stop_circle_outlined
-                          : Icons.play_circle_outline,
-                      size: 28),
-                  label: Text(start ? "STOP" : "START"),
-                ),
-                ElevatedButton.icon(
-                  onPressed: start
-                      ? () => {
-                            play = !play,
-                            play ? this._timer.cancel() : _startTimer(),
-                          }
-                      : null,
-                  icon: Icon(
-                      play
-                          ? Icons.pause_circle_outline
-                          : Icons.play_circle_outline,
-                      size: 28),
-                  label: Text(play ? "PAUSE" : "RESUME"),
-                ),
-                Spacer(),
-                Wrap(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                        label: Text("PREV"),
-                        onPressed: play
-                            ? null
-                            : () {
-                                setState(() {
-                                  (this.listIndex <= 0)
-                                      // ignore: unnecessary_statements
-                                      ? null
-                                      : this.listIndex--;
-                                });
-                              },
-                        icon: Icon(Icons.skip_previous_outlined),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                        label: Text("NEXT"),
-                        onPressed: play
-                            ? null
-                            : () {
-                                setState(() {
-                                  (this.listIndex >= list.length - 1)
-                                      // ignore: unnecessary_statements
-                                      ? null
-                                      : this.listIndex++;
-                                });
-                              },
-                        icon: Icon(Icons.skip_next_outlined),
-                      ),
-                    ),
-                  ],
-                ),
-                Wrap(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: FloatingActionButton(
-                        elevation: 10,
-                        backgroundColor: say ? Colors.red : Colors.green,
-                        child: Icon(
-                          say ? Icons.stop : Icons.speaker,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            say ? flutterTts.stop() : speak();
-                            say = !say;
-                          });
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(22.0),
-                      child: FloatingActionButton.extended(
-                        onPressed: () async {
-                          await flutterTts.speak(list[listIndex]
-                              .toLowerCase()
-                              .replaceAll("ə", "e")
-                              .replaceAll("x", "h")
-                              .replaceAll("ğ", "k"));
-                        },
-                        elevation: 10,
-                        icon: Icon(Icons.speaker),
-                        label: Text("SPEAK"),
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Spacer(),
-              ],
-            ),
-          ),
-        ),
+      body: Body(
+        text: widget.text,
+        list: widget.text2List(widget.text),
+        wpm: widget.wpm,
       ),
     );
   }

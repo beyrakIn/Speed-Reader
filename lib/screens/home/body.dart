@@ -1,5 +1,5 @@
 import 'package:demo1/components/Banner.dart';
-import 'package:demo1/components/Button.dart';
+import 'package:demo1/components/HomeButton.dart';
 import 'package:demo1/methods/message.dart';
 import 'package:demo1/screens/detail/home.dart';
 import 'package:flutter/cupertino.dart';
